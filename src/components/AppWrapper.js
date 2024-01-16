@@ -19,6 +19,7 @@ import HomeIcon from "@mui/icons-material/Home";
 import PersonIcon from "@mui/icons-material/Person";
 import SupportIcon from "@mui/icons-material/Support";
 import LogoutIcon from "@mui/icons-material/Logout";
+import TableViewIcon from "@mui/icons-material/TableView";
 
 export const metadata = {
   title: "Dashboard",
@@ -70,6 +71,14 @@ export default function AppWrapper({ children }) {
                 <PersonIcon />
               </ListItemIcon>
               <ListItemText primary="Profile Settings" />
+            </ListItemButton>
+          </ListItem>
+          <ListItem disablePadding>
+            <ListItemButton component={Link} href="/table">
+              <ListItemIcon>
+                <TableViewIcon />
+              </ListItemIcon>
+              <ListItemText primary="Table Editor" />
             </ListItemButton>
           </ListItem>
         </List>
