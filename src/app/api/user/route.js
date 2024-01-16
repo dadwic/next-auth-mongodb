@@ -1,3 +1,4 @@
+import bcrypt from "bcrypt";
 import dbConnect from "@/lib/dbConnect";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "../auth/[...nextauth]/route";
@@ -21,13 +22,15 @@ export async function PUT(req) {
   const session = await getServerSession(authOptions);
   if (session) {
     try {
-      await dbConnect();
       const body = await req.json();
+      const salt = bcrypt.genSaltSync(10);
+
+      await dbConnect();
       await User.findOneAndUpdate(
         {
           email: session.user.email,
         },
-        body
+        { ...body, password: bcrypt.hashSync(body.password, salt) }
       );
       return Response.json({ message: "Profile updated!" }, { status: 200 });
     } catch (error) {
