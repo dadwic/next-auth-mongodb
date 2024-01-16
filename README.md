@@ -1,45 +1,41 @@
-# Material UI - Next.js App Router example
+# NextAuth Credentials using MongoDB and Material UI
 
-This is a [Next.js](https://nextjs.org/) project bootstrapped using [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app) with Material UI installed.
+This is a [NextAuth](https://next-auth.js.org/) project with MongoDB and Material UI.
 
-## How to use
+## Configuration
 
-Download the example [or clone the repo](https://github.com/mui/material-ui):
+### Set up a MongoDB database
 
-<!-- #default-branch-switch -->
+Set up a MongoDB database either locally or with [MongoDB Atlas for free](https://mongodb.com/atlas).
+
+### Set up environment variables
+
+Copy the `env.local.example` file in this directory to `.env.local` (which will be ignored by Git):
 
 ```bash
-curl https://codeload.github.com/mui/material-ui/tar.gz/master | tar -xz --strip=2  material-ui-master/examples/material-ui-nextjs
-cd material-ui-nextjs
+cp .env.local.example .env.local
 ```
 
-Install it and run:
+Set each variable on `.env.local`:
+
+- `MONGODB_URI` - Your MongoDB connection string. If you are using [MongoDB Atlas](https://mongodb.com/atlas) you can find this by clicking the "Connect" button for your cluster.
+
+### Run Next.js in development mode
 
 ```bash
 npm install
 npm run dev
+
+# or
+
+yarn install
+yarn dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Your app should be up and running on [http://localhost:3000](http://localhost:3000)! If it doesn't work, create an issue [GitHub Issues](https://github.com/dadwic/next-auth-mongodb/issues).
 
-or:
+You will either see a message stating "You are connected to MongoDB" or "You are NOT connected to MongoDB". Ensure that you have provided the correct `MONGODB_URI` environment variable.
 
-<!-- #default-branch-switch -->
+When you are successfully connected, you can refer to the [MongoDB Node.js Driver docs](https://mongodb.github.io/node-mongodb-native/3.4/tutorials/collections/) for further instructions on how to query your database.
 
-[![Edit on StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/mui/material-ui/tree/master/examples/material-ui-nextjs)
-
-[![Edit on CodeSandbox](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/p/sandbox/github/mui/material-ui/tree/master/examples/material-ui-nextjs)
-
-## Learn more
-
-To learn more about this example:
-
-- [Next.js documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Customizing Material UI](https://mui.com/material-ui/customization/how-to-customize/) - approaches to customizing Material UI.
-
-## What's next?
-
-<!-- #default-branch-switch -->
-
-You now have a working example project.
-You can head back to the documentation and continue by browsing the [templates](https://mui.com/material-ui/getting-started/templates/) section.
+Open [https://next-auth-mui.vercel.app](https://next-auth-mui.vercel.app) with your browser to see the result.
