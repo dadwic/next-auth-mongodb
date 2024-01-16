@@ -2,13 +2,13 @@
 
 import * as React from "react";
 import * as yup from "yup";
+import Link from "next/link";
 import { useSnackbar } from "notistack";
 import { useRouter } from "next/navigation";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { FormProvider, useForm } from "react-hook-form";
+import LoadingButton from "@mui/lab/LoadingButton";
 import Avatar from "@mui/material/Avatar";
-import Button from "@mui/material/Button";
-import Link from "next/link";
 import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
@@ -25,6 +25,7 @@ const schema = yup
 
 export default function SignIn() {
   const router = useRouter();
+  const [loading, setLoading] = React.useState(false);
   const { enqueueSnackbar } = useSnackbar();
   const methods = useForm({
     resolver: yupResolver(schema),
@@ -40,6 +41,7 @@ export default function SignIn() {
         },
         body: JSON.stringify(form),
       });
+      const { message } = await res.json();
 
       // Throw error with status code in case Fetch API req failed
       if (!res.ok) {
@@ -48,9 +50,14 @@ export default function SignIn() {
         });
       }
 
-      router.push("/dashboard");
+      setLoading(false);
+      enqueueSnackbar(message, {
+        variant: "success",
+      });
+      router.push("/login");
     } catch (error) {
       console.log(error);
+      setLoading(false);
     }
   };
 
@@ -91,14 +98,16 @@ export default function SignIn() {
               id="password"
               autoComplete="current-password"
             />
-            <Button
-              type="submit"
+            <LoadingButton
               fullWidth
+              size="large"
+              type="submit"
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
+              loading={loading}
             >
               Sign Up
-            </Button>
+            </LoadingButton>
             <Link href="/login" variant="body2">
               Already have an account? Sign in
             </Link>

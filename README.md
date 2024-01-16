@@ -19,6 +19,7 @@ cp .env.local.example .env.local
 Set each variable on `.env.local`:
 
 - `MONGODB_URI` - Your MongoDB connection string. If you are using [MongoDB Atlas](https://mongodb.com/atlas) you can find this by clicking the "Connect" button for your cluster.
+- `NEXTAUTH_SECRET` - Used to encrypt the NextAuth.js JWT, and to hash [email verification tokens](https://authjs.dev/getting-started/adapters#verification-token). This is the default value for the secret option in NextAuth and Middleware.
 
 ### Run Next.js in development mode
 

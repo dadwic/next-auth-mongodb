@@ -9,7 +9,7 @@ import { useRouter } from "next/navigation";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { FormProvider, useForm } from "react-hook-form";
 import Avatar from "@mui/material/Avatar";
-import Button from "@mui/material/Button";
+import LoadingButton from "@mui/lab/LoadingButton";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
 import Box from "@mui/material/Box";
@@ -28,12 +28,14 @@ const schema = yup
 
 export default function SignIn() {
   const router = useRouter();
+  const [loading, setLoading] = React.useState(false);
   const { enqueueSnackbar } = useSnackbar();
   const methods = useForm({
     resolver: yupResolver(schema),
   });
 
   const onSubmit = async (data) => {
+    setLoading(true);
     try {
       const res = await signIn("credentials", {
         ...data,
@@ -41,15 +43,17 @@ export default function SignIn() {
       });
 
       if (res.error) {
-        enqueueSnackbar("Invalid Credentials", {
+        setLoading(false);
+        enqueueSnackbar("Invalid credentials!", {
           variant: "error",
         });
         return;
       }
 
-      router.push("dashboard");
+      router.push("/dashboard");
     } catch (error) {
       console.log(error);
+      setLoading(false);
     }
   };
 
@@ -94,14 +98,16 @@ export default function SignIn() {
               control={<Checkbox value="remember" color="primary" />}
               label="Remember me"
             />
-            <Button
-              type="submit"
+            <LoadingButton
               fullWidth
+              size="large"
+              type="submit"
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
+              loading={loading}
             >
               Sign In
-            </Button>
+            </LoadingButton>
             <Link href="/signup" variant="body2">
               Don't have an account? Sign Up
             </Link>
