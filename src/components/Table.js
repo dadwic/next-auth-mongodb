@@ -91,10 +91,10 @@ function EditToolbar(props) {
   );
 }
 
-function CustomToolbar() {
+function CustomToolbar(props) {
   return (
     <GridToolbarContainer>
-      <EditToolbar />
+      <EditToolbar {...props} />
       <GridToolbarColumnsButton />
       <GridToolbarFilterButton />
       <GridToolbarDensitySelector />
