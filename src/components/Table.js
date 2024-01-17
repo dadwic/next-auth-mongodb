@@ -32,6 +32,15 @@ const randomRole = () => {
   return randomArrayItem(roles);
 };
 
+function camelCase(str) {
+  // Using replace method with regEx
+  return str
+    .replace(/(?:^\w|[A-Z]|\b\w)/g, function (word, index) {
+      return index == 0 ? word.toLowerCase() : word.toUpperCase();
+    })
+    .replace(/\s+/g, "");
+}
+
 const initialRows = [
   {
     id: randomId(),
@@ -105,11 +114,27 @@ function CustomToolbar(props) {
 
 export default function FullFeaturedCrudGrid() {
   const [rows, setRows] = React.useState(initialRows);
+  const [customColumns, setCustomColumns] = React.useState([]);
   const [rowModesModel, setRowModesModel] = React.useState({});
 
   const handleRowEditStop = (params, event) => {
     if (params.reason === GridRowEditStopReasons.rowFocusOut) {
       event.defaultMuiPrevented = true;
+    }
+  };
+
+  const handleAddColumn = () => {
+    let name = prompt("Please enter a column name");
+    if (name != null) {
+      setCustomColumns([
+        ...customColumns,
+        {
+          field: camelCase(name),
+          headerName: name,
+          width: 180,
+          editable: true,
+        },
+      ]);
     }
   };
 
@@ -237,9 +262,18 @@ export default function FullFeaturedCrudGrid() {
       <Typography component="h1" variant="h5" gutterBottom>
         Table Editor
       </Typography>
+      <Button
+        color="primary"
+        variant="outlined"
+        startIcon={<AddIcon />}
+        onClick={handleAddColumn}
+        sx={{ mb: 1 }}
+      >
+        Add column
+      </Button>
       <DataGrid
         rows={rows}
-        columns={columns}
+        columns={[...columns, ...customColumns]}
         editMode="row"
         rowModesModel={rowModesModel}
         onRowModesModelChange={handleRowModesModelChange}
